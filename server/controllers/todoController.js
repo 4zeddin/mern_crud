@@ -3,7 +3,7 @@ const Todos = require("../dbTodos")
 // Create operation
 const createItem = async (req, res) => {
   try {
-    const newItem = await T2odos.create(req.body);
+    const newItem = await Todos.create(req.body);
     res.status(201).send(newItem);
   } catch (error) {
     res.status(500).send({ error: error.message });

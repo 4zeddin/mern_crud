@@ -4,7 +4,7 @@ import apiService from "../apiService";
 
 const App = () => {
   const [input, setInput] = useState();
-  const [todos, setTodos] = useState();
+  const [todos, setTodos] = useState([]);
   useState(() => {
     const fetchApi = async () => {
       try {
@@ -14,10 +14,22 @@ const App = () => {
         console.log(err.message);
       }
     };
-  
+    
     fetchApi();
   }, []);
-  console.log(todos);
+  const addTodo = async(e) => {
+    e.preventDefault();
+    if( input.length === 0 ) return null;
+    await axios.post("/todos",[
+      {
+        ...todos,
+        text: input,
+        completed: false,
+      },
+    ]);
+    setInput("");
+    fetchApi();
+  }
   return (
     <main>
       <div>
@@ -26,7 +38,7 @@ const App = () => {
           value=""
           onChange={(e) => setInput(e.target.value)}
         />
-        <button>Add</button>
+        <button onClick={(e)=>addTodo(e)}>Add</button>
       </div>
       <div>{/* {todo.map()} */}</div>
     </main>
